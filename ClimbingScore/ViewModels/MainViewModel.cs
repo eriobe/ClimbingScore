@@ -1,12 +1,12 @@
 ﻿using ClimbingScore.Commands;
 using ClimbingScore.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using PropertyChanged;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace ClimbingScore.ViewModels;
 
+[AddINotifyPropertyChangedInterface]
 public class MainViewModel
 {
     public MainViewModel()
@@ -14,51 +14,42 @@ public class MainViewModel
         RegisterScoreCommand = new RelayCommand(
             _ => RegisterScore()
             );
+        IncreaseAttemptsCommand = new RelayCommand(
+            _ => Attempts++
+            );
+        DecreaseAttemptsCommand = new RelayCommand(
+            _ => Attempts--,
+            _ => Attempts > 1
+            );
     }
-    public string Name { get; set; } = "Erik";
-    
 
+    public int Attempts { get; set; } = 1;
+    public string Name { get; set; } = "Erik";
+    public bool IsEnabled { get; set; } = false;
+    public ObservableCollection<GradeColors> GradeColors { get; set; } =
+        new(Enum.GetValues<GradeColors>());
+    public GradeColors SelectedGrade { get; set; }
     public ICommand RegisterScoreCommand { get; }
+    public ICommand IncreaseAttemptsCommand { get; }
+    public ICommand DecreaseAttemptsCommand { get; }
+
+    public GradeColors DefaultGradeColor { get; set; } = Models.GradeColors.Yellow;
+
+    // public event PropertyChangedEventHandler? PropertyChanged;
+
+    //protected void OnPropertyChanged(
+    //       [CallerMemberName] string? propertyName = null)
+    //{
+    //    PropertyChanged?.Invoke(
+    //        this,
+    //        new PropertyChangedEventArgs(propertyName)
+    //    );
+    //}
 
     public void RegisterScore()
     {
 
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void Test()
-    {
-        Student erik = new();
-
-        Teacher eva = new();
-        
-    }
-
-    public void Greet(ICanGreet member)
-    {
-        Name = member.SayHello();
+        IsEnabled = true;
+        Name = "Ahmed";
     }
 }
