@@ -12,6 +12,7 @@
     mc:Ignorable="d">
     <Window.Resources>
         <converters:GradeColorToSwedishConverter x:Key="GradeColorToSwedishConverter" />
+        <converters:GradeColorToColorConverter x:Key="GradeColorToColorConverter" />
     </Window.Resources>
     <Grid Background="#F3F4F6">
 
@@ -40,12 +41,9 @@
                     Text="{Binding ClimberName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <TextBlock FontWeight="SemiBold" Text="Problem" />
+                <TextBox Text="{Binding ProblemNumber, UpdateSourceTrigger=PropertyChanged}" />
 
-                <TextBlock
-                    Margin="0,6,0,20"
-                    FontSize="24"
-                    FontWeight="SemiBold"
-                    Text="{Binding ProblemNumber}" />
+
 
                 <TextBlock FontWeight="SemiBold" Text="Svårighetsgrad" />
                 <TextBlock FontWeight="SemiBold" Text="{Binding DefaultGradeColor, Converter={StaticResource GradeColorToSwedishConverter}}" />
@@ -55,7 +53,22 @@
                     Padding="8"
                     FontSize="18"
                     ItemsSource="{Binding GradeColors}"
-                    SelectedItem="{Binding SelectedGrade, Mode=TwoWay}" />
+                    SelectedItem="{Binding SelectedGrade, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse
+                                    Width="16"
+                                    Height="16"
+                                    Fill="{Binding Converter={StaticResource GradeColorToColorConverter}}"
+                                    Stroke="Black"
+                                    StrokeThickness="1" />
+                                <TextBlock Text="{Binding Converter={StaticResource GradeColorToSwedishConverter}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+
+                </ComboBox>
 
                 <TextBlock FontWeight="SemiBold" Text="Antal försök" />
 

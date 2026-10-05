@@ -12,7 +12,8 @@ public class MainViewModel
     public MainViewModel()
     {
         RegisterScoreCommand = new RelayCommand(
-            _ => RegisterScore()
+            _ => RegisterScore(),
+            _ => ProblemNumber >= 1
             );
         IncreaseAttemptsCommand = new RelayCommand(
             _ => Attempts++
@@ -26,6 +27,7 @@ public class MainViewModel
     public int Attempts { get; set; } = 1;
     public string Name { get; set; } = "Erik";
     public bool IsEnabled { get; set; } = false;
+    public int ProblemNumber { get; set; }
     public ObservableCollection<GradeColors> GradeColors { get; set; } =
         new(Enum.GetValues<GradeColors>());
     public GradeColors SelectedGrade { get; set; }
