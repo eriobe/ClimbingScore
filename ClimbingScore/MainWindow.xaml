@@ -14,6 +14,7 @@
     <Window.Resources>
         <converters:GradeColorToSwedishConverter x:Key="GradeColorToSwedishConverter" />
         <converters:GradeColorToColorConverter x:Key="GradeColorToColorConverter" />
+        <converters:BoolToVisibilityConverter  x:Key="BoolToVisibilityConverter" />
     </Window.Resources>
     <Grid Background="#F3F4F6">
 
@@ -32,6 +33,7 @@
                     FontSize="28"
                     FontWeight="Bold"
                     Text="Poäng" />
+               
 
                 <TextBlock FontWeight="SemiBold" Text="Klättrare" />
 
@@ -45,7 +47,19 @@
                     Margin="0,0,0,6"
                     FontWeight="SemiBold"
                     Text="Problem" />
+                <TextBlock
+Margin="0,0,0,10"
+HorizontalAlignment="Center"
+FontSize="16"
+Text="Hämtar problem..."
+Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}    }" />
 
+                <ProgressBar
+Width="260"
+Height="16"
+Margin="0,0,0,20"
+IsIndeterminate="True"
+Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}    }" />
                 <ComboBox
                     Margin="0,0,0,20"
                     Padding="8"

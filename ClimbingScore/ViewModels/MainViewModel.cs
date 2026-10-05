@@ -1,47 +1,41 @@
 ﻿using ClimbingScore.Commands;
 using ClimbingScore.Models;
+using ClimbingScore.Services;
+using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace ClimbingScore.ViewModels;
 
+[AddINotifyPropertyChangedInterface]
 public class MainViewModel
 {
     public string ClimberName { get; set; } = "Erik";
 
-    public ObservableCollection<ProblemViewModel> Problems { get; } =
-        new()
-        {
-            new ProblemViewModel
-            {
-                Number = 1,
-                Type = "Överhäng",
-                Grade = GradeColor.Green
-            },
-            new ProblemViewModel
-            {
-                Number = 2,
-                Grade = GradeColor.Blue
-            },
-            new ProblemViewModel
-            {
-                Number = 3,
-                Grade = GradeColor.Yellow
-            },
-            new ProblemViewModel
-            {
-                Number = 4,
-                Grade = GradeColor.Red
-            }
-        };
+    public ObservableCollection<ProblemViewModel> Problems { get; } = [];
+    public bool IsLoading { get; private set; } = false;
 
     public ProblemViewModel? SelectedProblem { get; set; }
 
     public ICommand RegisterScoreCommand { get; }
 
+    private readonly ProblemService _problemService;
+
+    
+
     public MainViewModel()
     {
-        SelectedProblem = Problems[0];
+        _problemService = new ProblemService();
+       // var problems = _problemService.GetProblemsAsync().Result;
+
+        //var problems = GetProblemsAsync().Result;
+
+        //Problems = new ObservableCollection<ProblemViewModel>(
+        //    problems.Select(CreateProblemViewModel));
+        
+        
+        
+       // SelectedProblem = Problems[0];
 
         RegisterScoreCommand =
             new RelayCommand(
@@ -50,5 +44,44 @@ public class MainViewModel
 
     private void RegisterScore()
     {
+    }
+
+
+    public async Task LoadAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var problems = await _problemService.GetProblemsAsync();
+
+            foreach (var problem in problems)
+            {
+                Problems.Add(CreateProblemViewModel(problem));
+            }
+
+            SelectedProblem = Problems[0];
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+
+
+    private async Task<IReadOnlyList<Problem>> GetProblemsAsync()
+    {
+        return await _problemService.GetProblemsAsync();
+    }
+
+    private ProblemViewModel CreateProblemViewModel(Problem problem)
+    {
+        return new ProblemViewModel
+        {
+            Number = problem.Number,
+            Type = problem.Type,
+            Grade = problem.Grade
+        };
     }
 }
