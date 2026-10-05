@@ -10,17 +10,17 @@ public class GradeColorToColorConverter : IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
 
-        if (value is not GradeColors gradeColor)
+        if (value is not GradeColor gradeColor)
             return Brushes.Transparent;
 
         return gradeColor switch
         {
-            GradeColors.Green => Brushes.Green,
-            GradeColors.Blue => Brushes.Blue,
-            GradeColors.Yellow => Brushes.Yellow,
-            GradeColors.Red => Brushes.Red,
-            GradeColors.Black => Brushes.Black,
-            GradeColors.White => Brushes.White,
+            GradeColor.Green => Brushes.Green,
+            GradeColor.Blue => Brushes.Blue,
+            GradeColor.Yellow => Brushes.Yellow,
+            GradeColor.Red => Brushes.Red,
+            GradeColor.Black => Brushes.Black,
+            GradeColor.White => Brushes.White,
             _ => Brushes.Transparent
         };
     }

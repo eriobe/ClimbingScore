@@ -1,6 +1,6 @@
 ﻿namespace ClimbingScore.Models;
 
-public enum GradeColors
+public enum GradeColor
 {
     Green,
     Blue,

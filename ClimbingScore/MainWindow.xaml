@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ClimbingScore"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:ClimbingScore.Views"
     Title="MainWindow"
     Width="600"
     Height="750"
@@ -40,113 +41,23 @@
                     FontSize="18"
                     Text="{Binding ClimberName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                <TextBlock FontWeight="SemiBold" Text="Problem" />
-                <TextBox Text="{Binding ProblemNumber, UpdateSourceTrigger=PropertyChanged}" />
-
-
-
-                <TextBlock FontWeight="SemiBold" Text="Svårighetsgrad" />
-                <TextBlock FontWeight="SemiBold" Text="{Binding DefaultGradeColor, Converter={StaticResource GradeColorToSwedishConverter}}" />
+                <TextBlock
+                    Margin="0,0,0,6"
+                    FontWeight="SemiBold"
+                    Text="Problem" />
 
                 <ComboBox
-                    Margin="0,6,0,20"
-                    Padding="8"
-                    FontSize="18"
-                    ItemsSource="{Binding GradeColors}"
-                    SelectedItem="{Binding SelectedGrade, Mode=TwoWay}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Ellipse
-                                    Width="16"
-                                    Height="16"
-                                    Fill="{Binding Converter={StaticResource GradeColorToColorConverter}}"
-                                    Stroke="Black"
-                                    StrokeThickness="1" />
-                                <TextBlock Text="{Binding Converter={StaticResource GradeColorToSwedishConverter}}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-
-                </ComboBox>
-
-                <TextBlock FontWeight="SemiBold" Text="Antal försök" />
-
-                <Grid Margin="0,6,0,25">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <Button
-                        Grid.Column="0"
-                        Width="36"
-                        Height="36"
-                        Command="{Binding DecreaseAttemptsCommand}"
-                        Content="−"
-                        FontSize="16"
-                        FontWeight="Bold" />
-
-                    <TextBlock
-                        Grid.Column="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="26"
-                        FontWeight="SemiBold"
-                        Text="{Binding Attempts}" />
-
-                    <Button
-                        Grid.Column="2"
-                        Width="60"
-                        Height="60"
-                        Command="{Binding IncreaseAttemptsCommand}"
-                        Content="+"
-                        FontSize="30"
-                        FontWeight="Bold"
-                        IsEnabled="{Binding IsEnabled}" />
-                </Grid>
-
-                <Border
                     Margin="0,0,0,20"
-                    Padding="16"
-                    Background="#F3F4F6"
-                    CornerRadius="8">
+                    Padding="8"
+                    DisplayMemberPath="Number"
+                    FontSize="18"
+                    ItemsSource="{Binding Problems}"
+                    SelectedItem="{Binding SelectedProblem, Mode=TwoWay}" />
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0">
-                            <TextBlock
-                                FontSize="13"
-                                Foreground="Gray"
-                                Text="Resultat" />
-
-                            <TextBlock
-                                FontSize="22"
-                                FontWeight="SemiBold"
-                                Text="{Binding ResultType}" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1">
-                            <TextBlock
-                                FontSize="13"
-                                Foreground="Gray"
-                                Text="Poäng" />
-
-                            <TextBlock
-                                FontSize="22"
-                                FontWeight="Bold"
-                                Text="{Binding Score}" />
-                        </StackPanel>
-                    </Grid>
-
-                </Border>
+                <views:ProblemControl DataContext="{Binding SelectedProblem}" />
 
                 <Button
+                    Margin="0,20,0,0"
                     Padding="12"
                     Command="{Binding RegisterScoreCommand}"
                     Content="Registrera"

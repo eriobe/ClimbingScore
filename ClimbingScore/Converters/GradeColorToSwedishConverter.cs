@@ -8,16 +8,16 @@ public class GradeColorToSwedishConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is GradeColors gradeColor)
+        if (value is GradeColor gradeColor)
         {
             return gradeColor switch
             {
-                GradeColors.Green => "Grön",
-                GradeColors.Blue => "Blå",
-                GradeColors.Yellow => "Gul",
-                GradeColors.Red => "Röd",
-                GradeColors.Black => "Svart",
-                GradeColors.White => "Vit",
+                GradeColor.Green => "Grön",
+                GradeColor.Blue => "Blå",
+                GradeColor.Yellow => "Gul",
+                GradeColor.Red => "Röd",
+                GradeColor.Black => "Svart",
+                GradeColor.White => "Vit",
                 _ => ""
             };
         }
