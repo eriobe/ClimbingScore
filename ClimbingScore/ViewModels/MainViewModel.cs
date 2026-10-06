@@ -19,13 +19,14 @@ public class MainViewModel
 
     public ICommand RegisterScoreCommand { get; }
 
-    private readonly ProblemService _problemService;
+    private readonly IProblemService _problemService;
 
     // smaka smet
     // https://www.instagram.com/reels/DPD5whLDIZe/
 
 
-    public MainViewModel()
+    public MainViewModel(IProblemService problemService)
+
     {
         _problemService = new ProblemService();
         // var problems = _problemService.GetProblemsAsync().Result;
@@ -49,32 +50,16 @@ public class MainViewModel
     }
 
 
-    public async Task LoadAsync()
+    public async Task InitProblems()
     {
-        IsLoading = true;
+        var problems = await _problemService.GetProblemsAsync();
 
-        try
+        foreach (var problem in problems)
         {
-            var problems = await _problemService.GetProblemsAsync();
-
-            foreach (var problem in problems)
-            {
-                Problems.Add(CreateProblemViewModel(problem));
-            }
-
-            SelectedProblem = Problems[0];
+            Problems.Add(CreateProblemViewModel(problem));
         }
-        finally
-        {
-            IsLoading = false;
-        }
-    }
 
-
-
-    private async Task<IReadOnlyList<Problem>> GetProblemsAsync()
-    {
-        return await _problemService.GetProblemsAsync();
+        SelectedProblem = Problems[0];
     }
 
     private ProblemViewModel CreateProblemViewModel(Problem problem)

@@ -1,14 +1,6 @@
-﻿using ClimbingScore.ViewModels;
-using System.Text;
+﻿using ClimbingScore.Services;
+using ClimbingScore.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ClimbingScore
 {
@@ -21,18 +13,21 @@ namespace ClimbingScore
         public MainWindow()
         {
             InitializeComponent();
-            _viewModel = new MainViewModel();
+            ProblemService problem = new();
+            _viewModel = new MainViewModel(problem);
             DataContext = _viewModel;
 
             Loaded += MainWindow_Loaded;
+            // mainViewModel.
+            // injicera
+            // 1 property
+            // 2. Metodparameter
+            // 3. Konstruktor
         }
 
-        private async void MainWindow_Loaded(
-            object sender,
-            RoutedEventArgs e)
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            await _viewModel.LoadAsync();
+            await _viewModel.InitProblems();
         }
-
     }
 }
