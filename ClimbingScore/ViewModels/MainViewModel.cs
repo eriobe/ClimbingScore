@@ -21,21 +21,23 @@ public class MainViewModel
 
     private readonly ProblemService _problemService;
 
-    
+    // smaka smet
+    // https://www.instagram.com/reels/DPD5whLDIZe/
+
 
     public MainViewModel()
     {
         _problemService = new ProblemService();
-       // var problems = _problemService.GetProblemsAsync().Result;
+        // var problems = _problemService.GetProblemsAsync().Result;
 
         //var problems = GetProblemsAsync().Result;
 
         //Problems = new ObservableCollection<ProblemViewModel>(
         //    problems.Select(CreateProblemViewModel));
-        
-        
-        
-       // SelectedProblem = Problems[0];
+
+
+
+        // SelectedProblem = Problems[0];
 
         RegisterScoreCommand =
             new RelayCommand(
